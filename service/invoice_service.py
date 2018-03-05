@@ -5,7 +5,6 @@ class InvoiceService:
     def __init__(self):
         pass
 
-    def parse_invoice(self, invoice):
-        output = []
-        parse_invoice(invoice, output)
-        return output
+    def parse_invoice(self, invoice, template):
+        parsed_data = parse_invoice(invoice, template)
+        return parsed_data

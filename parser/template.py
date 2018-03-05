@@ -39,24 +39,31 @@ def read_templates(folder):
                 tpl = ordered_load(open(os.path.join(path, name)).read())
                 tpl['template_name'] = name
 
-                # Test if all required fields are in template:
-                assert 'keywords' in tpl.keys(), 'Missing keywords field.'
-                required_fields = []
-                assert len(set(required_fields).intersection(tpl['fields'].keys())) == len(required_fields), \
-                    'Missing required key in template {} {}. Found {}'.format(name, path, tpl['fields'].keys())
-
-                # Keywords as list, if only one.
-                if type(tpl['keywords']) is not list:
-                    tpl['keywords'] = [tpl['keywords']]
-
-                if 'lines' in tpl:
-                    assert 'start' in tpl['lines'], 'Lines start regex missing'
-                    assert 'end' in tpl['lines'], 'Lines end regex missing'
-                    assert 'line' in tpl['lines'], 'Line regex missing'
+                assert_content(name, path, tpl)
 
                 output.append(InvoiceTemplate(tpl))
     return output
 
+
+def assert_content(tpl):
+    # Test if all required fields are in template:
+    assert 'keywords' in tpl.keys(), 'Missing keywords field.'
+    required_fields = []
+    assert len(set(required_fields).intersection(tpl['fields'].keys())) == len(required_fields), \
+        'Found {}'.format(tpl['fields'].keys())
+    # Keywords as list, if only one.
+    if type(tpl['keywords']) is not list:
+        tpl['keywords'] = [tpl['keywords']]
+    if 'lines' in tpl:
+        assert 'start' in tpl['lines'], 'Lines start regex missing'
+        assert 'end' in tpl['lines'], 'Lines end regex missing'
+        assert 'line' in tpl['lines'], 'Line regex missing'
+
+
+def get_template(template):
+    tpl = ordered_load(template.read())
+    assert_content(tpl)
+    return InvoiceTemplate(tpl)
 
 class InvoiceTemplate(OrderedDict):
     """

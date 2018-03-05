@@ -16,11 +16,12 @@ UPLOAD_FOLDER = '/tmp/'
 @invoice_parser.route('/extract', methods=["POST"])
 def extract_data():
     invoice = request.files['file']
+    template = request.files['template']
     if invoice:
         filename = secure_filename(invoice.filename)
     invoice.save(os.path.join(UPLOAD_FOLDER, filename))
     file_path = os.path.join(UPLOAD_FOLDER + invoice.filename)
-    return jsonify(service.parse_invoice(invoice=file_path))
+    return jsonify(service.parse_invoice(invoice=file_path, template=template))
 
 
 
