@@ -1,0 +1,17 @@
+issuer: Fattura
+fields:
+  amount: Netto a pagare\s+(\d+.?\d+,?\d+)
+  amount_untaxed: Importo merce\s+(\d+.?\d+,?\d+)
+  date: Data fattura\s+:\s+(\d+/\d+/\d+)
+  invoice_number: Numero fattura\s+:\s+(\d+)
+  invoiced_to: Intestatario\s+(.{,100})
+lines:
+  start: 'Prezzo scont.\s+%.*%'
+  end: 'Contributo Conai e Polieco assolto ove dovuto'
+  first_line: '\s+(?P<pos>\d+)\s+(?P<desc>.{,100})\s+(?P<quantity>\d+\.*\d*,*\d*)\s*(?P<discount_price>\d*\.*\d*,*\d*)\s*(?P<discount_percentage>\d*\.*\d*,*\d*)'
+  line: '\s+(?P<desc>.{,110})\s*(?P<unit>\w*)\s*(?P<discount_price>\d*\.*\d*,*\d*)\s*(?P<net_amount>\d*\.*\d*,*\d*)\s*(?P<iva>\d*\.*\d*,*\d*)'
+keywords:
+- Fattura
+options:
+  currency: EUR
+  decimal_separator: ","

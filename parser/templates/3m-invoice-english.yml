@@ -1,0 +1,26 @@
+issuer: Invoice
+fields:
+  amount: Invoice Total\s+([0-9,.]+)
+  amount_untaxed: Invoice Value\s+([0-9,.]+)
+  invoiced_to: Bill to:\s+(.{,60})
+lines:
+  start: 'Material Ordered'
+  end: 'EUSG4:'
+  first_line: '\s*(?P<pos>\d+)\s+(?P<desc>.{,70})\s+(?P<catalog>\d+)\s+(?P<amount>[0-9,.]+)\s+(?P<price_per_unit>[0-9,.]*)\s+(?P<discount>[0-9,.%]*)\s+(?P<net_amount>[0-9,.]+)\s+(?P<ust>[0-9,.]+%)'
+  line: '(?P<desc>.{,70})\s+(?P<catalog>[\w\+]*)\s*[/]*\s*(?P<unit>[A-Z]*)\s*(?P<price_per_unit>[0-9,.]*)'
+regex:
+  - '\s+(?P<invoice_number>\d+)\s+(?P<invoice_date>\d+.\d+.\d+)\s+(?P<order_number>\d+)\s+(?P<payment_terms>.{,70})\s+(?P<customer_number>\d+)'
+address:
+  start: 'Bill to:'
+  end: 'Please remit payment to:'
+  terminate_at: 'Ship to'
+keywords:
+- Item Description
+- Invoice
+- Bill to
+- Material Ordered
+options:
+  currency: SEK
+  decimal_separator: "."
+  delete:
+    - 'Page(.*\n)*\s+Material Ordered'
