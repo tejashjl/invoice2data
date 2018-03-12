@@ -110,6 +110,14 @@ class InvoiceTemplate(OrderedDict):
             assert len(replace) == 2, 'A replace should be a list of 2 items'
             optimized_str = optimized_str.replace(replace[0], replace[1])
 
+        if 'remove_lines' in self:
+            for line in self['remove_lines']:
+                while True:
+                    to_be_removed = re.search(line, optimized_str)
+                    if to_be_removed:
+                        optimized_str = optimized_str.replace(to_be_removed.group(), '')
+                    else:
+                        break
         return optimized_str
 
     def matches_input(self, optimized_str):

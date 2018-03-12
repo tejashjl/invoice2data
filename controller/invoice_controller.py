@@ -1,10 +1,9 @@
-import json
 import os
 
 from flask import Blueprint
+from flask import jsonify
 from flask import request
 from werkzeug.utils import secure_filename
-from flask import jsonify
 
 from service.invoice_service import InvoiceService
 

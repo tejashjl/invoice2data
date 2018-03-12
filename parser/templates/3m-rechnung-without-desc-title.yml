@@ -10,12 +10,15 @@ lines:
   line: '(?P<desc>.{,70})\s*(?P<catalog>[0-9\+]*)\s*[/]*\s*(?P<unit>[A-Z]*)\s*(?P<price_per_unit>[0-9,.]*)'
 regex:
   - '\s+(?P<invoice_number>\d+)\s+(?P<invoice_date>\d+.\d+.\d+)\s+(?P<order_number>\d+)\s+(?P<payment_terms>.{,70})\s+(?P<customer_number>\d+)'  
+remove_lines:
+  - '3M Österreich GmbH \| Kranichberggasse 4\, 1120 Wien(?P<pos>.*\n)*?\s+Bestelltes Produkt'
+  
 keywords:
 - Rechnung
 options:
   currency: EUR
   decimal_separator: ","
-  replace: 
+  replace:
     - ['*************(?P<desc>.{,70})\s*(?P<catalog>[0-9]*)\s*[/]*\s*(?P<unit>[A-Z]*)\s*(?P<per_unit>[0-9,.]*)**************************************** 3M Deutschland GmbH | Carl-Schurz-Str. 1, D-41453 Neuss ****************************** **********************', '']
     - ['Es gelten unsere Allgemeinen Verkaufsbedingungen, einzusehen unter http://3M.com/DE/AVB/. Auf Wunsch senden wir Ihnen diese gerne zu. | Sitz: 41453 Neuss |', '']
     - ['Handelsregister: B 1878 Amtsgericht Neuss | Geschäftsführer: Dr. John Banovetz, Prof. Dr. Joerg Dederichs, Michael Peters, Rob Schokker, Stefan Schulz | Vorsitzender', '']
