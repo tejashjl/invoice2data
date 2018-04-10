@@ -1,3 +1,5 @@
+tesserocr
+tesseract
 PyPDF2
 wand
 Flask==0.12.2

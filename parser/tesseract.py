@@ -1,6 +1,6 @@
 import io
 import os
-
+import cv2
 import subprocess
 from PIL import Image
 from wand.image import Image as wi
@@ -35,9 +35,26 @@ class Tesseract:
             return invoice_pdf_file_path
 
     def to_image_blobs(self, invoice_path):
+        invoice_path = self.pre_process_image(invoice_path)
         self.imageBlobs = []
-        imgPage = wi(image=wi(filename=invoice_path, resolution=400, depth=8).convert('jpeg'))
+        imgPage = wi(
+            image=wi(filename=invoice_path, resolution=400, depth=8, background="white").convert('jpeg'))
         self.imageBlobs.append(imgPage.make_blob('jpeg'))
+
+    @staticmethod
+    def pre_process_image(invoice_path):
+        image = cv2.imread(invoice_path)
+        image = cv2.resize(image, (0, 0), fx=4, fy=4)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        if True:
+            gray = cv2.threshold(gray, 0, 255,
+                                 cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+        if False:
+            gray = cv2.medianBlur(gray, 3)
+        filename = "{}.png".format(temporary_file_name())
+
+        cv2.imwrite(filename, gray)
+        return filename
 
     def pdf_to_image_blobs(self, invoice_path):
         self.imageBlobs = []
@@ -56,7 +73,7 @@ class Tesseract:
         output_file_name_base = '%s' % temporary_file_name()
         output_file_name = '%s.pdf' % output_file_name_base
         image.save(input_file_name)
-        tesseract_command = ["tesseract", input_file_name, output_file_name_base, '-l', "eng+deu", "pdf"]
+        tesseract_command = ["tesseract", input_file_name, output_file_name_base, '--psm', '11', '-l', "eng+deu", "pdf"]
         tesseract_command_txt = ["tesseract", input_file_name, output_file_name_base, '-l', "eng+deu"]
         subprocess.Popen(tesseract_command, stderr=subprocess.PIPE).communicate()
         subprocess.Popen(tesseract_command_txt, stderr=subprocess.PIPE).communicate()
