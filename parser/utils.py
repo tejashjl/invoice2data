@@ -11,6 +11,8 @@ from wand.color import Color
 from wand.image import Image as wi
 from PIL import Image
 
+RESOLUTION = 500  # resolution must be a (x, y) pair or an integer of the same x/y
+
 
 # borrowed from http://stackoverflow.com/a/21912744
 def ordered_load(
@@ -56,14 +58,14 @@ def empty_dir(folder):
 
 
 def convert_pdf_to_images(pdf_file_path):
-    converted_image_paths = []
-    with wi(filename=pdf_file_path, resolution=500) as img:
+    image_file_paths = []
+    with wi(filename=pdf_file_path, resolution=RESOLUTION) as img:
         # img.compression_quality = 99
         with img.convert('jpg') as pdfImages:
             for pdfImage in pdfImages.sequence:
                 image = wi(image=pdfImage)
                 image.format = 'jpeg'
-                file_name = '{}{}.jpg'.format(temporary_file_name(), len(converted_image_paths))
+                file_name = '{}{}.jpg'.format(temporary_file_name(), len(image_file_paths))
                 image.save(filename=file_name)
-                converted_image_paths.append(file_name)
-    return converted_image_paths
+                image_file_paths.append(file_name)
+    return image_file_paths

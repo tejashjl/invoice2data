@@ -9,7 +9,7 @@ class InvoiceService:
     def parse_invoice(self, invoice, template, file_type):
         tesseract = Tesseract()
         if file_type == 'PDF_WITH_IMAGE':
-            return parse_invoice_image(invoice)
+            return parse_invoice_image(invoice, template)
         if file_type == 'IMAGE':
             invoice = tesseract.to_pdf(invoice, file_type)
 
