@@ -12,7 +12,7 @@ invoice_parser = Blueprint("invoice_parser", __name__)
 service = InvoiceService()
 UPLOAD_FOLDER = '/tmp/'
 DEFAULT_FILE_TYPE = 'PDF'
-FILE_TYPES = ['PDF', 'PDF_WITH_IMAGE', 'IMAGE']
+FILE_TYPES = ['PDF', 'PDF_WITH_IMAGE']
 
 
 @invoice_parser.route('/extract', methods=["POST"])

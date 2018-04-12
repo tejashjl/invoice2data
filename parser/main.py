@@ -23,7 +23,11 @@ def parse_invoice(invoice, template):
 
 
 def parse_invoice_image(invoice_path, template):
-    return extract_image_data(invoice_path, template)
+    output = extract_image_data(invoice_path, template)
+    logger.info('START pdftotext result ===========================')
+    logger.info(output)
+    logger.info('END pdftotext result =============================')
+    return output
 
 
 def extract_image_data(invoice_path, template):
