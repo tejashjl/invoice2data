@@ -12,18 +12,15 @@ invoice_parser = Blueprint("invoice_parser", __name__)
 service = InvoiceService()
 UPLOAD_FOLDER = '/tmp/'
 DEFAULT_FILE_TYPE = 'PDF'
-FILE_TYPES = ['PDF', 'PDF_WITH_IMAGE']
 
 
 @invoice_parser.route('/extract', methods=["POST"])
 def extract_data():
     invoice = request.files['file']
-    template = request.files['template']
-    file_type = request.form.get('file_type', DEFAULT_FILE_TYPE)
-    if file_type not in FILE_TYPES:
-        return jsonify({"message": "Invalid file type"})
+    text_template = request.files['text_template']
+    image_template = request.files['image_template']
     if invoice:
         filename = secure_filename(invoice.filename)
     invoice.save(os.path.join(UPLOAD_FOLDER, filename))
     file_path = os.path.join(UPLOAD_FOLDER + filename)
-    return jsonify(service.parse_invoice(invoice=file_path, template=template, file_type=file_type))
+    return jsonify(service.parse_invoice(invoice=file_path, text_template=text_template, image_template=image_template))

@@ -1,0 +1,19 @@
+issuer: Nota Credito
+width: 1239.0
+height: 1752.0
+line_items_table:
+  fields: ['description','units','price_per_unit','discount','net_amount','iva']
+  first_page:
+    x: 56.0
+    y: 783.0
+  remaining_pages:
+    x: 56.0
+    y: 783.0
+line_items_index:
+  present: true
+  ending_x_pos: 40.0
+summary_table:
+  present: true
+footer:
+  present: true
+  height: 75.0
