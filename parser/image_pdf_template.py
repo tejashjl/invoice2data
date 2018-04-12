@@ -5,7 +5,7 @@ from flask import json
 
 from parser.index_region import IndexRegion
 from parser.invoice_image import InvoiceImage
-from parser.line_detector import detect_horizontal_lines, detect_lines
+from parser.line_detector import detect_horizontal_lines, detect_vertical_lines
 from parser.opencv_utils import crop, save_image, sort_regions_by_y_axis, crop_regions, \
     crop_line_regions, extract_text
 from parser.utils import ordered_load, convert_pdf_to_images, cleanup, temporary_file_name
@@ -86,7 +86,7 @@ class InvoiceTemplate(OrderedDict):
         line_items_regions = self.get_line_items_regions(invoice_image)
         logger.debug("Number of line items: %d", len(line_items_regions))
         for line_item_region in line_items_regions:
-            vertical_lines = detect_lines(line_item_region)
+            vertical_lines = detect_vertical_lines(line_item_region)
             cropped_regions = crop_line_regions(line_item_region, vertical_lines)
             lineItem = {}
             for index, cropped_region in enumerate(cropped_regions):

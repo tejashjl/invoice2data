@@ -1,10 +1,9 @@
 from operator import attrgetter
-from random import random
 
 import numpy as np
 import cv2
 
-from parser.opencv_utils import convert_color, convert_to_black_and_white, swap_colors, save_image
+from parser.opencv_utils import save_image
 from parser.utils import temporary_file_name, cleanup
 
 
@@ -17,36 +16,6 @@ class LineCoordinates:
 
     def __repr__(self):
         return repr((self.x1, self.y1, self.x2, self.y2))
-
-
-def process_image(image):
-    gray_image = convert_color(image, cv2.COLOR_BGR2GRAY)
-    black_and_white_image = convert_to_black_and_white(gray_image)
-    swapped_image = swap_colors(black_and_white_image)
-    return swapped_image
-
-
-def detect_vertical_lines(image):
-    vertical_lines = []
-    processed_image = process_image(image)
-    lines = cv2.HoughLines(processed_image, 1, np.pi, 100)
-    if lines is not None:
-        print len(lines)
-        for index, w in enumerate(lines):
-            for r, theta in lines[index]:
-                a = np.cos(theta)
-                b = np.sin(theta)
-                x0 = a * r
-                y0 = b * r
-                x1 = int(x0 + 1000 * (-b))
-                y1 = int(y0 + 1000 * (a))
-                x2 = int(x0 - 1000 * (-b))
-                y2 = int(y0 - 1000 * (a))
-                vertical_lines.append(LineCoordinates(x1, y1, x2, y2))
-                cv2.line(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
-    # save_image('linesDetected' + str(random()) + '.jpg', image)
-    sorted_vertical_lines = sort_line_by_x1_axis(vertical_lines)
-    return sorted_vertical_lines
 
 
 def sort_line_by_x1_axis(vertical_lines):
@@ -79,7 +48,7 @@ def remove_nearby_horizontal_lines(lines):
     return processed_lines
 
 
-def detect_lines(img):
+def detect_vertical_lines(img):
     height, width, _ = img.shape
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur_gray = cv2.GaussianBlur(gray, (5, 5), 0)
