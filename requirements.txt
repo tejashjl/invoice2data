@@ -1,3 +1,4 @@
+hunspell
 tesserocr
 tesseract
 PyPDF2
@@ -10,3 +11,6 @@ pyyaml
 dateparser
 unidecode
 pdfminer.six
+pyocr
+python-Levenshtein
+fuzzywuzzy

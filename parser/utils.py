@@ -11,7 +11,7 @@ from wand.color import Color
 from wand.image import Image as wi
 from PIL import Image
 
-RESOLUTION = 500  # resolution must be a (x, y) pair or an integer of the same x/y
+RESOLUTION = 1000  # resolution must be a (x, y) pair or an integer of the same x/y
 
 
 # borrowed from http://stackoverflow.com/a/21912744
