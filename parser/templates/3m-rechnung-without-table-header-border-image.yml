@@ -1,0 +1,19 @@
+issuer: Rechnung
+width: 4134.0
+height: 5846.0
+line_items_table:
+  fields: ['description','quantity','price_per_unit','discount','net_amount']
+  first_page:
+    x: 280.0
+    y: 2770.0
+  remaining_pages:
+    x: 280.0
+    y: 1480.0
+line_items_index:
+  present: true
+  ending_x_pos: 120.0
+summary_table:
+  present: false
+footer:
+  present: true
+  height: 425.0

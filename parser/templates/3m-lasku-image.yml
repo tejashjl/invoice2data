@@ -1,0 +1,19 @@
+issuer: Lasku
+width: 4250.0
+height: 5500.0
+line_items_table:
+  fields: ['description','catalog','quantity','price_per_unit','discount','net_amount','alv']
+  first_page:
+    x: 230.0
+    y: 2765.0
+  remaining_pages:
+    x: 200.0
+    y: 1220.0
+line_items_index:
+  present: true
+  ending_x_pos: 170.0
+summary_table:
+  present: true
+footer:
+  present: true
+  height: 500.0

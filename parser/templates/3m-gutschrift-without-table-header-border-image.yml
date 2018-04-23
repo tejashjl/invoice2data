@@ -1,0 +1,19 @@
+issuer: Gutschrift
+width: 4134.0
+height: 5846.0
+line_items_table:
+  fields: ['description','quantity','price_per_unit','discount','net_amount']
+  first_page:
+    x: 286.0
+    y: 2773.0
+  remaining_pages:
+    x: 286.0
+    y: 1477.0
+line_items_index:
+  present: true
+  ending_x_pos: 120.0
+summary_table:
+  present: false
+footer:
+  present: true
+  height: 430.0

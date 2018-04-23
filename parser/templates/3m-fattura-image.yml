@@ -1,0 +1,19 @@
+issuer: Fattura
+width: 4132.0
+height: 5840.0
+line_items_table:
+  fields: ['description','quantity','price_per_unit','discount','net_amount','iva']
+  first_page:
+    x: 140.0
+    y: 2602.0
+  remaining_pages:
+    x: 290.0
+    y: 1135.0
+line_items_index:
+  present: true
+  ending_x_pos: 125.0
+summary_table:
+  present: false
+footer:
+  present: true
+  height: 250.0

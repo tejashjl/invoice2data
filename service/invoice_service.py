@@ -9,7 +9,7 @@ class InvoiceService:
     def parse_invoice(self, invoice, text_template, image_template):
         logger.info("Parsing PDF file by text parser")
         output = parse_invoice(invoice, text_template)
-        if output == [] or len(output[0]['lines']) == 0:
+        if output == [] or 'lines' in output[0] or True:
             logger.info("Parsing PDF file by image parser")
             output = parse_invoice_image(invoice, image_template)
         return output

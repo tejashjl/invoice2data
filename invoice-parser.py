@@ -9,7 +9,7 @@ logger = app.logger
 stream_handler = logging.StreamHandler()
 app.logger.addHandler(stream_handler)
 app.logger.setLevel(logging.DEBUG)
-app.logger.info('first startup')
+app.logger.info('INVOICE ----> DATA')
 app.register_blueprint(invoice_parser)
 
 if __name__ == '__main__':

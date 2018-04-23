@@ -10,6 +10,7 @@ from collections import OrderedDict
 from wand.color import Color
 from wand.image import Image as wi
 from PIL import Image
+# from parser.opencv_utils import check_image_contains_text
 
 RESOLUTION = 500  # resolution must be a (x, y) pair or an integer of the same x/y
 

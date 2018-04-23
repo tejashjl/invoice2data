@@ -1,0 +1,19 @@
+issuer: Invoice
+width: 4250.0
+height: 5500.0
+line_items_table:
+  fields: ['description','catalog','quantity','price_per_unit','discount','net_amount','vat']
+  first_page:
+    x: 230.0
+    y: 2345.0
+  remaining_pages:
+    x: 199.0
+    y: 917.0
+line_items_index:
+  present: true
+  ending_x_pos: 170.0
+summary_table:
+  present: true
+footer:
+  present: false
+  height: 0.0

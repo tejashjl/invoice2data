@@ -1,9 +1,9 @@
 from operator import attrgetter
-from tesserocr import PyTessBaseAPI
 
 import cv2
 
 from parser.index_region import IndexRegion
+from parser.text_extractor import extract_plain_text
 from parser.utils import temporary_file_name, cleanup
 
 
@@ -60,12 +60,27 @@ def crop_line_regions(line_item_region, vertical_lines):
 
 
 def extract_text(region):
-    api = PyTessBaseAPI()
     file_path = '%s.jpg' % temporary_file_name(prefix="tess")
     save_image(file_path, region)
-    api.SetVariable("classify_bln_numeric_mode", "0")
-    api.SetImageFile(file_path)
-    api.SetPageSegMode(4)
-    ocrResult = api.GetUTF8Text()
+    text = extract_plain_text(file_path)
     cleanup(file_path)
-    return ocrResult.strip()
+    return text.strip()
+
+
+def remove_images_without_text(file_paths):
+    text_image_file_paths = []
+    for file_path in file_paths:
+        text_regions = detect_contours(file_path)
+        if len(text_regions) > 100:
+            text_image_file_paths.append(file_path)
+        else:
+            cleanup(file_path)
+    return text_image_file_paths
+
+
+def detect_contours(file_path):
+    image = cv2.imread(file_path)
+    imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    ret, thresh = cv2.threshold(imgray, 127, 255, 0)
+    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    return contours
