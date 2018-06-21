@@ -1,6 +1,31 @@
 issuer: Invoice
 width: 4250.0
 height: 5500.0
+fields:
+  - name: 'Invoice Number'
+    value_position: 'below'
+  - name: 'Invoice Date'
+    value_position: 'below'
+  - name: 'Customer P.O. Number'
+    value_position: 'below'
+  - name: 'Payment Terms'
+    value_position: 'below'
+  - name: 'Due Date'
+    value_position: 'below'
+  - name: 'Customer Number'
+    value_position: 'below'
+  - name: '3M Order Number'
+    value_position: 'below'
+  - name: 'Order Number'
+    value_position: 'below'
+  - name: 'Freight Order Number'
+    value_position: 'below'
+  - name: 'Carrier/Transportation'
+    value_position: 'below'
+  - name: 'Shipment Date'
+    value_position: 'below'
+  - name: '3M Delivery Number'
+    value_position: 'below'
 line_items_table:
   fields: ['description','catalog','quantity','price_per_unit','discount','net_amount','vat']
   first_page:

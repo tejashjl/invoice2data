@@ -1,6 +1,31 @@
 issuer: Rechnung
 width: 4134.0
 height: 5846.0
+fields:
+  - name: 'Rechnungsnummer'
+    value_position: 'below'
+  - name: 'Rechnungsdatum'
+    value_position: 'below'
+  - name: 'Ihre Bestellnummer'
+    value_position: 'below'
+  - name: 'Zahlungsbedingungen'
+    value_position: 'below'
+  - name: 'Fälligkeitsdatum'
+    value_position: 'below'
+  - name: 'Ihre Kundennummer'
+    value_position: 'below'
+  - name: '3M Auftragsnummer'
+    value_position: 'below'
+  - name: 'Bestelldatum'
+    value_position: 'below'
+  - name: 'Frachtbestellnummer'
+    value_position: 'below'
+  - name: 'Versandart'
+    value_position: 'below'
+  - name: 'Versanddatum'
+    value_position: 'below'
+  - name: 'Liefernummer'
+    value_position: 'below'
 line_items_table:
   fields: ['description','catalog','quantity','price_per_unit','discount','net_amount','ust']
   first_page:

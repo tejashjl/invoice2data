@@ -4,13 +4,15 @@ import logging as logger
 
 from PIL import Image
 
+from parser.text_corrector import HunSpell
+
 tools = pyocr.get_available_tools()
 if len(tools) == 0:
     logger.error("No OCR tool found")
     sys.exit(1)
 tool = tools[0]
 logger.debug("Using OCR tool '%s'" % (tool.get_name()))
-
+hunspell = HunSpell()
 
 def extract_text_regions(image_path):
 

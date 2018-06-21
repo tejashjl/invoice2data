@@ -7,6 +7,10 @@ from parser.text_extractor import extract_plain_text
 from parser.utils import temporary_file_name, cleanup
 
 
+def open_image(image_path):
+    return cv2.imread(image_path)
+
+
 def save_image(file_name, img_mat):
     cv2.imwrite(file_name, img_mat)
 
@@ -70,7 +74,8 @@ def extract_text(region):
 def remove_images_without_text(file_paths):
     text_image_file_paths = []
     for file_path in file_paths:
-        text_regions = detect_contours(file_path)
+        image = open_image(file_path)
+        text_regions = detect_contours(image)
         if len(text_regions) > 100:
             text_image_file_paths.append(file_path)
         else:
@@ -78,9 +83,20 @@ def remove_images_without_text(file_paths):
     return text_image_file_paths
 
 
-def detect_contours(file_path):
-    image = cv2.imread(file_path)
+def detect_contours(image):
     imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(imgray, 127, 255, 0)
     im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
+
+
+def detect_mser_regions(image):
+    mser = cv2.MSER_create()
+    regions = mser.detectRegions(image)
+    return regions
+
+
+def detect_mser_regions(image):
+    mser = cv2.MSER_create()
+    regions = mser.detectRegions(image)
+    return regions

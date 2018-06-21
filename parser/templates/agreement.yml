@@ -1,0 +1,10 @@
+issuer: Agreement
+fields:
+  amount: amount\s+(\d+.\d+,\d+)
+lines:
+  start: 'Weeks 2, 4, 6, 8, 10, 12, 14, 16\s+'
+  end: '1 Female subjects of child-bearing potential'
+  line: '(?P<col1>.*?(?=X|$))(?P<col2>X.*?(?=X|$))?(?P<col3>X.*?(?=X|$))?'
+
+keywords:
+- Agreement

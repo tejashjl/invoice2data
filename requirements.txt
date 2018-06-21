@@ -1,3 +1,4 @@
+hunspell
 pyocr
 tesserocr
 tesseract
@@ -11,3 +12,5 @@ pyyaml
 dateparser
 unidecode
 pdfminer.six
+python-box
+sklearn

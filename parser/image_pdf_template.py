@@ -1,15 +1,26 @@
 from collections import OrderedDict
 
 from flask import json
+import cv2
+import numpy as np
 
+from parser.field_value_extractor import extract_field_values
 from parser.index_region import IndexRegion
 from parser.invoice_image import InvoiceImage
 from parser.line_detection import detect_horizontal_lines, detect_vertical_lines
 from parser.opencv_utils import crop, save_image, sort_regions_by_y_axis, crop_regions, \
-    crop_line_regions, extract_text, remove_images_without_text
+    crop_line_regions, extract_text, remove_images_without_text, detect_mser_regions
 from parser.text_extractor import extract_text_regions
 from parser.utils import ordered_load, convert_pdf_to_images, cleanup, temporary_file_name
 import logging as logger
+
+
+class BBoxes:
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
 
 
 def assert_content(tpl):
@@ -43,20 +54,24 @@ class InvoiceTemplate(OrderedDict):
         super(InvoiceTemplate, self).__init__(*args, **kwargs)
 
     def extract_data(self, path):
-        output = []
+        output = {}
         image_file_paths = convert_pdf_to_images(path)
         image_file_paths = remove_images_without_text(image_file_paths)
         logger.debug('Number of PDF pages: %d', len(image_file_paths))
         for index, image_file in enumerate(image_file_paths):
             logger.debug('Parsing page: (%d/%d)', index, len(image_file_paths))
             is_last_page = (len(image_file_paths) == (index + 1))
-            output.extend(
-                self.parse_image(image_file_path=image_file, page_number=index + 1, last_page=is_last_page))
+            output['page-' + str(index)] = self.parse_image(image_file_path=image_file, page_number=index + 1,
+                                                       last_page=is_last_page)
         # [cleanup(file_path) for file_path in image_file_paths]
         return output
 
     def parse_image(self, image_file_path, page_number, last_page):
+        parsed_data = {}
         invoice_image = InvoiceImage(image_file_path, page_number)
+        if 'fields' in self.keys():
+            field_values = extract_field_values(image_file_path, self['fields'])
+            parsed_data['fields'] = field_values
         if self['footer']['present']:
             cropped_invoice = self.crop_footer(invoice_image)
         else:
@@ -64,7 +79,9 @@ class InvoiceTemplate(OrderedDict):
         if last_page and self['summary_table']['present']:
             cropped_invoice = self.crop_summary_table(cropped_invoice)
         line_items = self.extract_line_items(original_image=invoice_image, cropped_image=cropped_invoice)
-        return line_items
+        parsed_data['line_items'] = line_items
+        return parsed_data
+
 
     def crop_footer(self, invoice_image):
         height, width, mode = invoice_image.raw_image.shape

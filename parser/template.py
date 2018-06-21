@@ -232,7 +232,7 @@ class InvoiceTemplate(OrderedDict):
 
         output['currency'] = self.options['currency']
 
-        if len(output.keys()) >= 5:
+        if len(output.keys()) >= 2:
             # output['desc'] = 'Invoice %s from %s' % (
             #     output['invoice_number'], self['issuer'])
             logger.debug(output)

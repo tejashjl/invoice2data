@@ -6,6 +6,7 @@ import tempfile
 import io
 import yaml
 from collections import OrderedDict
+import subprocess
 
 from wand.color import Color
 from wand.image import Image as wi
@@ -68,5 +69,8 @@ def convert_pdf_to_images(pdf_file_path):
                 image.format = 'jpeg'
                 file_name = '{}{}.jpg'.format(temporary_file_name(), len(image_file_paths))
                 image.save(filename=file_name)
-                image_file_paths.append(file_name)
+                tiff_file_name = '{}{}.tiff'.format(temporary_file_name(), len(image_file_paths))
+                convert = "convert -units PixelsPerInch %s -density 300 %s" % (file_name, tiff_file_name)
+                subprocess.Popen(convert.split(' '), stdout=subprocess.PIPE).communicate()
+                image_file_paths.append(tiff_file_name)
     return image_file_paths

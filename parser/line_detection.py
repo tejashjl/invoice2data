@@ -1,10 +1,9 @@
 from operator import attrgetter
 
-from parser.invoice_image import InvoiceImage
 import numpy as np
 import cv2
 
-from parser.opencv_utils import swap_colors, save_image
+from parser.opencv_utils import save_image
 from parser.utils import temporary_file_name
 
 
